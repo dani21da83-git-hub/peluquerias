@@ -1,62 +1,81 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import { SITE_CONFIG } from "../config";
 import "./Booking.css";
 
-// Cal.com inline embed script loader
 function CalEmbed({ username }) {
+  const embedRef = useRef(null);
+
+  useEffect(() => {
+    // Dynamically load Cal.com embed script
+    const script = document.createElement("script");
+    script.src = "https://app.cal.com/embed/embed.js";
+    script.async = true;
+    script.onload = () => {
+      if (window.Cal) {
+        window.Cal("init", { origin: "https://cal.com" });
+        window.Cal("inline", {
+          elementOrSelector: "#cal-inline",
+          calLink: username,
+          layout: "month_view",
+        });
+        window.Cal("ui", {
+          styles: { branding: { brandColor: "#c8a96e" } },
+          hideEventTypeDetails: false,
+          layout: "month_view",
+        });
+      }
+    };
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, [username]);
+
+  // If no real username configured yet, show placeholder
+  if (!username || username === "palmira-zaballos") {
+    return (
+      <div className="cal-placeholder">
+        <div className="cal-placeholder__inner">
+          <div className="cal-placeholder__icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </div>
+          <h3 className="cal-placeholder__title">Reserva online</h3>
+          <p className="cal-placeholder__desc">
+            El calendario de citas se activará en breve.<br/>
+            Mientras tanto, contáctanos directamente.
+          </p>
+          <div className="cal-placeholder__actions">
+            <a href={`tel:${SITE_CONFIG.contact.phone}`} className="btn btn-solid">
+              Llamar ahora
+            </a>
+            <a href={`https://wa.me/${SITE_CONFIG.contact.phone.replace(/\D/g, "")}`}
+               target="_blank" rel="noopener noreferrer" className="btn">
+              WhatsApp
+            </a>
+          </div>
+          <p className="cal-placeholder__setup">
+            <span>Para activar el calendario:</span>{" "}
+            crea cuenta gratuita en{" "}
+            <a href="https://cal.com" target="_blank" rel="noopener noreferrer">
+              cal.com
+            </a>{" "}
+            y añade tu usuario en <code>config.js → calUsername</code>
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="cal-embed">
-      {/* Cal.com popup button integration */}
-      <div
-        className="cal-inline-embed"
-        dangerouslySetInnerHTML={{
-          __html: `
-            <div style="width:100%;height:100%;overflow:scroll" id="my-cal-inline"></div>
-            <script type="text/javascript">
-              (function (C, A, L) {
-                let p = function (a, ar) { a.q.push(ar); };
-                let d = C.document;
-                C.Cal = C.Cal || function () {
-                  let cal = C.Cal;
-                  let ar = arguments;
-                  if (!cal.loaded) {
-                    cal.ns = {};
-                    cal.q = cal.q || [];
-                    d.head.appendChild(d.createElement("script")).src = A;
-                    cal.loaded = true;
-                  }
-                  if (ar[0] === L) {
-                    const api = function () { p(api, arguments); };
-                    const namespace = ar[1];
-                    api.q = api.q || [];
-                    if (typeof namespace === "string") {
-                      cal.ns[namespace] = cal.ns[namespace] || api;
-                      p(cal.ns[namespace], ar);
-                      p(cal, ["-", namespace]);
-                    } else { p(cal, ar); }
-                    return;
-                  }
-                  p(cal, ar);
-                };
-              })(window, "https://app.cal.com/embed/embed.js", "init");
-              Cal("init", { origin: "https://cal.com" });
-              Cal("inline", {
-                elementOrSelector: "#my-cal-inline",
-                calLink: "${username}",
-                layout: "month_view"
-              });
-              Cal("ui", {
-                styles: {
-                  branding: { brandColor: "#c8a96e" }
-                },
-                hideEventTypeDetails: false,
-                layout: "month_view"
-              });
-            </script>
-          `,
-        }}
-      />
+    <div className="cal-embed" ref={embedRef}>
+      <div id="cal-inline" style={{ width: "100%", minHeight: "600px" }} />
     </div>
   );
 }
@@ -111,9 +130,7 @@ export default function Booking() {
             {SITE_CONFIG.hours.map((h, i) => (
               <div key={i} className="booking__hour-row">
                 <span className="booking__hour-day">{h.day}</span>
-                <span
-                  className={`booking__hour-time ${h.time === "Cerrado" ? "closed" : ""}`}
-                >
+                <span className={`booking__hour-time ${h.time === "Cerrado" ? "closed" : ""}`}>
                   {h.time}
                 </span>
               </div>
@@ -142,7 +159,7 @@ export default function Booking() {
           </motion.div>
         </div>
 
-        {/* Right: Cal.com embed */}
+        {/* Right: Cal.com or placeholder */}
         <motion.div
           className="booking__cal-wrap"
           initial={{ opacity: 0, x: 40 }}

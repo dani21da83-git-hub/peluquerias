@@ -94,14 +94,79 @@
   min-height: 600px;
 }
 
-.cal-inline-embed {
+/* Placeholder shown until Cal.com is configured */
+.cal-placeholder {
   width: 100%;
-  min-height: 600px;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
 }
 
-.cal-inline-embed > div {
+.cal-placeholder__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+  max-width: 380px;
+}
+
+.cal-placeholder__icon {
+  width: 72px;
+  height: 72px;
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent);
+}
+
+.cal-placeholder__title {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: var(--color-text);
+}
+
+.cal-placeholder__desc {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
+.cal-placeholder__actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.cal-placeholder__setup {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
   width: 100%;
-  min-height: 600px;
+}
+
+.cal-placeholder__setup span {
+  color: var(--color-accent);
+}
+
+.cal-placeholder__setup a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.cal-placeholder__setup code {
+  font-size: 0.68rem;
+  background: var(--color-surface-2);
+  padding: 0.1rem 0.4rem;
+  color: var(--color-text);
 }
 
 @media (max-width: 900px) {
