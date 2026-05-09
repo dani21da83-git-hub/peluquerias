@@ -4,38 +4,36 @@ import { SITE_CONFIG } from "../config";
 import "./Booking.css";
 
 function CalEmbed({ username }) {
-  const containerRef = useRef(null);
-  const loaded = useRef(false);
+  const initialized = useRef(false);
 
   useEffect(() => {
-    if (loaded.current) return;
-    loaded.current = true;
+    if (initialized.current) return;
 
-    // Load Cal.com embed script
-    const script = document.createElement("script");
-    script.src = "https://app.cal.com/embed/embed.js";
-    script.async = true;
-
-    script.onload = () => {
-      if (!window.Cal) return;
-      window.Cal("init", { origin: "https://cal.com" });
-      window.Cal("inline", {
-        elementOrSelector: "#cal-inline",
-        calLink: username,
-        layout: "month_view",
-      });
-      window.Cal("ui", {
-        styles: { branding: { brandColor: "#c8a96e" } },
-        hideEventTypeDetails: false,
-        layout: "month_view",
-      });
+    // Cal is already loaded via index.html — just mount the inline widget
+    const tryMount = () => {
+      if (window.Cal) {
+        initialized.current = true;
+        window.Cal("inline", {
+          elementOrSelector: "#cal-inline",
+          calLink: username,
+          layout: "month_view",
+        });
+        window.Cal("ui", {
+          styles: { branding: { brandColor: "#c8a96e" } },
+          hideEventTypeDetails: false,
+          layout: "month_view",
+        });
+      } else {
+        // Cal script still loading — retry in 300ms
+        setTimeout(tryMount, 300);
+      }
     };
 
-    document.head.appendChild(script);
+    tryMount();
   }, [username]);
 
   return (
-    <div className="cal-embed" ref={containerRef}>
+    <div className="cal-embed">
       <div id="cal-inline" />
     </div>
   );
