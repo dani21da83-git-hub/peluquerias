@@ -72,7 +72,7 @@ export const SITE_CONFIG = {
 
   // Booking — Cal.com username (free plan)
   // Set up at https://cal.com → create account → get your username
-  calUsername: "palmira-zaballos", // Replace with real Cal.com username
+  calUsername: "daniel-marcos-rbpmjt",
 
   // Contact
   contact: {

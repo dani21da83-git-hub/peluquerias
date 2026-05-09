@@ -94,6 +94,11 @@
   min-height: 600px;
 }
 
+.cal-embed #cal-inline {
+  width: 100%;
+  min-height: 600px;
+}
+
 /* Placeholder shown until Cal.com is configured */
 .cal-placeholder {
   width: 100%;
