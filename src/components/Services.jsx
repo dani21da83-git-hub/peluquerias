@@ -88,7 +88,7 @@ export default function Services() {
               >
                 <div className="service-card__top">
                   <h3 className="service-card__name">{item.name}</h3>
-                  <span className="service-card__price">{item.price}</span>
+                  
                 </div>
                 <div className="service-card__bottom">
                   <span className="service-card__duration">

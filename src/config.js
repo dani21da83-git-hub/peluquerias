@@ -6,7 +6,7 @@ export const SITE_CONFIG = {
   // Brand
   name: "Palmira Zaballos",
   tagline: "El arte de transformar",
-  subTagline: "Peluquería · Madrid",
+  subTagline: "Peluquería · Salamanca",
   description: "Un espacio donde el estilo encuentra su expresión más auténtica.",
 
   // Logo — swap for any other salon's logo image
@@ -78,7 +78,7 @@ export const SITE_CONFIG = {
   contact: {
     phone: "+34 XXX XXX XXX",
     email: "info@palmira-zaballos.com",
-    address: "Calle [Tu Dirección], Madrid",
+    address: "Calle [Tu Dirección], Salamanca",
     instagram: "https://instagram.com/palmira.zaballos",
     google_maps: "https://maps.google.com",
   },

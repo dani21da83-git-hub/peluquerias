@@ -52,7 +52,7 @@ export default function About() {
               transition={{ duration: 0.8, delay: 0.5 }}
             >
               <span className="about__badge-year">Est. 2009</span>
-              <span className="about__badge-label">Madrid</span>
+              <span className="about__badge-label">Salamanca</span>
             </motion.div>
           </motion.div>
         </div>
@@ -99,7 +99,7 @@ export default function About() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.45 }}
           >
-            Nuestro salón en Madrid es un espacio donde la estética se fusiona
+            Nuestro salón en Salamanca es un espacio donde la estética se fusiona
             con el cuidado personal. Ven a descubrir tu mejor versión.
           </motion.p>
 
