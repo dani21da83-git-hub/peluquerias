@@ -42,7 +42,7 @@ export default function About() {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
             <img
-              src="/1778258667787_image.png"
+              src="/peluqueri_a-1615496220.webp"
               alt="Interior de Palmira Zaballos Peluquería"
             />
             <motion.div

@@ -10,7 +10,7 @@ export const SITE_CONFIG = {
   description: "Un espacio donde el estilo encuentra su expresión más auténtica.",
 
   // Logo — swap for any other salon's logo image
-  logoImage: "/1778258589683_image.png",
+  logoImage: "/unika-logo.svg",
   logoAlt: "Palmira Zaballos Peluquería",
 
   // Hero background image
@@ -19,7 +19,7 @@ export const SITE_CONFIG = {
   // Gallery images (add or remove as needed)
   galleryImages: [
     {
-      src: "/1778258667787_image.png",
+      src: "/peluqueri_a-1615496220.webp",
       alt: "Interior del salón",
       label: "Nuestro espacio",
     },

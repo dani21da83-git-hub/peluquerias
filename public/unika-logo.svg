@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" width="400" height="220">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&amp;family=Montserrat:wght@200;300;400&amp;display=swap');
+    </style>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#C9A96E"/>
+      <stop offset="50%" style="stop-color:#E8D5A3"/>
+      <stop offset="100%" style="stop-color:#A87C3E"/>
+    </linearGradient>
+    <linearGradient id="goldLine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#A87C3E;stop-opacity:0"/>
+      <stop offset="30%" style="stop-color:#C9A96E;stop-opacity:1"/>
+      <stop offset="70%" style="stop-color:#C9A96E;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#A87C3E;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fondo oscuro elegante -->
+  <rect width="400" height="220" fill="#1A1A1A" rx="4"/>
+
+  <!-- Ícono: tijeras estilizadas -->
+  <g transform="translate(200, 62)" stroke="url(#goldGrad)" stroke-width="1.5" fill="none" stroke-linecap="round">
+    <!-- Hoja superior izquierda -->
+    <line x1="-2" y1="0" x2="-28" y2="-36" stroke-width="2"/>
+    <!-- Hoja superior derecha -->
+    <line x1="2" y1="0" x2="28" y2="-36" stroke-width="2"/>
+    <!-- Eje central -->
+    <circle cx="0" cy="0" r="3" fill="url(#goldGrad)" stroke="none"/>
+    <!-- Mango izquierdo -->
+    <ellipse cx="-33" cy="-44" rx="7" ry="5" transform="rotate(-40 -33 -44)" stroke-width="1.5"/>
+    <!-- Mango derecho -->
+    <ellipse cx="33" cy="-44" rx="7" ry="5" transform="rotate(40 33 -44)" stroke-width="1.5"/>
+    <!-- Línea inferior (pelo) -->
+    <path d="M -4 2 Q -15 12 -20 22" stroke-width="1.2" stroke-dasharray="3,3"/>
+    <path d="M 4 2 Q 15 12 20 22" stroke-width="1.2" stroke-dasharray="3,3"/>
+  </g>
+
+  <!-- Línea decorativa superior -->
+  <line x1="80" y1="95" x2="320" y2="95" stroke="url(#goldLine)" stroke-width="0.6"/>
+
+  <!-- Nombre principal -->
+  <text
+    x="200" y="132"
+    text-anchor="middle"
+    font-family="'Cormorant Garamond', Georgia, serif"
+    font-size="46"
+    font-weight="300"
+    letter-spacing="14"
+    fill="url(#goldGrad)"
+  >UNIKA</text>
+
+  <!-- Línea decorativa inferior -->
+  <line x1="80" y1="142" x2="320" y2="142" stroke="url(#goldLine)" stroke-width="0.6"/>
+
+  <!-- Subtítulo -->
+  <text
+    x="200" y="166"
+    text-anchor="middle"
+    font-family="'Montserrat', Helvetica, sans-serif"
+    font-size="10"
+    font-weight="300"
+    letter-spacing="8"
+    fill="#C9A96E"
+    opacity="0.85"
+  >ESTILISTAS</text>
+
+  <!-- Puntos decorativos -->
+  <circle cx="126" cy="166" r="1.5" fill="#C9A96E" opacity="0.5"/>
+  <circle cx="274" cy="166" r="1.5" fill="#C9A96E" opacity="0.5"/>
+</svg>
