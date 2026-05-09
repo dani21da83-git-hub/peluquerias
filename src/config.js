@@ -10,7 +10,7 @@ export const SITE_CONFIG = {
   description: "Un espacio donde el estilo encuentra su expresión más auténtica.",
 
   // Logo — swap for any other salon's logo image
-  logoImage: "/unika-logo.svg",
+  logoImage: "/logo-generic.svg",
   logoAlt: "Palmira Zaballos Peluquería",
 
   // Hero background image
