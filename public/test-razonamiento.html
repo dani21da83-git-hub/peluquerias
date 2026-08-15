@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instrumento de Razonamiento · Lectura Comparativa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#eef0ea;
+    --paper-line: rgba(20,35,34,0.09);
+    --ink:#16241f;
+    --ink-soft:#4b5b53;
+    --gold:#b9812f;
+    --teal:#3c6f63;
+    --coral:#a8503c;
+    --panel:#f7f8f3;
+    --panel-border: rgba(20,35,34,0.14);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 32px,
+      linear-gradient(90deg, var(--paper-line) 1px, transparent 1px) 0 0/32px 100%,
+      var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Mono', monospace;
+    min-height:100vh;
+    padding:0 0 80px 0;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px;}
+
+  header.top{
+    padding:40px 24px 28px;
+    border-bottom:1px solid var(--panel-border);
+    background:var(--panel);
+    margin-bottom:40px;
+  }
+  .top-inner{max-width:760px;margin:0 auto;}
+  .eyebrow{
+    font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--gold);font-weight:600;margin-bottom:10px;
+  }
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:clamp(28px,5vw,40px);
+    line-height:1.08;
+    margin:0 0 14px;
+    letter-spacing:-0.01em;
+  }
+  .sub{color:var(--ink-soft);font-size:14px;line-height:1.6;max-width:56ch;}
+  .disclaimer{
+    margin-top:18px;font-size:12px;color:var(--ink-soft);
+    border-left:2px solid var(--gold);padding-left:12px;line-height:1.6;
+  }
+
+  .gauge-row{
+    display:flex;align-items:center;gap:14px;margin:26px 0 0;
+    font-size:12px;color:var(--ink-soft);
+  }
+  .gauge-track{
+    flex:1;height:3px;background:var(--panel-border);position:relative;border-radius:2px;
+    overflow:hidden;
+  }
+  .gauge-fill{
+    position:absolute;left:0;top:0;height:100%;width:0%;
+    background:var(--gold);transition:width .35s ease;
+  }
+  .gauge-label{font-variant-numeric:tabular-nums;white-space:nowrap;}
+
+  .qcard{
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    padding:26px 26px 22px;
+    margin-bottom:18px;
+    position:relative;
+  }
+  .qcard .idx{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;font-size:12px;color:var(--gold);
+    letter-spacing:.08em;margin-bottom:10px;text-transform:uppercase;
+  }
+  .qcard .prompt{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:18px;font-weight:500;line-height:1.4;margin-bottom:6px;
+    color:var(--ink);
+  }
+  .qcard .grid-visual{
+    display:grid;grid-template-columns:repeat(3,64px);gap:8px;margin:14px 0;
+  }
+  .qcard .grid-visual div{
+    border:1px solid var(--panel-border);height:40px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;background:#fff;
+  }
+  .options{display:grid;gap:8px;margin-top:16px;}
+  .opt{
+    display:flex;align-items:center;gap:12px;
+    padding:11px 14px;border:1px solid var(--panel-border);
+    background:#fff;cursor:pointer;font-size:14px;color:var(--ink);
+    transition:border-color .15s, background .15s;
+    text-align:left;
+  }
+  .opt:hover{border-color:var(--teal);}
+  .opt .letter{
+    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:12px;
+    width:20px;height:20px;border:1px solid var(--panel-border);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .opt.selected{border-color:var(--teal);background:#eef5f2;}
+  .opt.selected .letter{background:var(--teal);color:#fff;border-color:var(--teal);}
+
+  .submit-row{margin-top:34px;text-align:center;}
+  button.primary{
+    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;
+    letter-spacing:.03em;text-transform:uppercase;
+    background:var(--ink);color:var(--paper);
+    border:none;padding:15px 34px;cursor:pointer;
+    transition:background .15s;
+  }
+  button.primary:hover{background:var(--teal);}
+  button.primary:disabled{background:#b8bdb6;cursor:not-allowed;}
+  .missing-note{font-size:12px;color:var(--coral);margin-top:10px;min-height:16px;}
+
+  /* results */
+  #results{display:none;}
+  .result-panel{
+    background:var(--panel);border:1px solid var(--panel-border);
+    padding:34px 30px;margin-top:10px;
+  }
+  .result-headline{
+    font-family:'Space Grotesk',sans-serif;font-size:14px;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;
+  }
+  .result-score{
+    font-family:'Space Grotesk',sans-serif;font-weight:700;
+    font-size:56px;line-height:1;margin-bottom:4px;
+  }
+  .result-score span{font-size:18px;font-weight:500;color:var(--ink-soft);margin-left:8px;}
+  .result-detail{font-size:13px;color:var(--ink-soft);line-height:1.7;max-width:52ch;margin-bottom:26px;}
+  svg#curve{width:100%;height:auto;display:block;}
+  .curve-caption{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-soft);margin-top:4px;}
+  .breakdown{margin-top:30px;}
+  .breakdown h3{
+    font-family:'Space Grotesk',sans-serif;font-size:13px;text-transform:uppercase;
+    letter-spacing:.08em;color:var(--ink);margin-bottom:14px;font-weight:600;
+  }
+  .breakdown-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:8px 0;border-bottom:1px solid var(--panel-border);font-size:13px;
+  }
+  .breakdown-row .cat{color:var(--ink-soft);}
+  .breakdown-row .mark{font-family:'Space Grotesk',sans-serif;font-weight:600;}
+  .mark.ok{color:var(--teal);}
+  .mark.bad{color:var(--coral);}
+  .review{margin-top:34px;}
+  .review-item{
+    padding:14px 0;border-bottom:1px solid var(--panel-border);font-size:13px;
+  }
+  .review-item .q{color:var(--ink);margin-bottom:4px;}
+  .review-item .a{color:var(--ink-soft);}
+  .review-item .a.correct-tag{color:var(--teal);}
+  .review-item .a.wrong-tag{color:var(--coral);}
+
+  footer{
+    max-width:760px;margin:60px auto 0;padding:0 24px;
+    font-size:11px;color:var(--ink-soft);border-top:1px solid var(--panel-border);
+    padding-top:18px;
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="eyebrow">Instrumento de Razonamiento &nbsp;·&nbsp; Lectura N.º 1</div>
+    <h1>Test de razonamiento comparativo</h1>
+    <p class="sub">15 ítems: series numéricas, analogías, lógica, patrones y velocidad de cálculo. Al final verás tu resultado situado sobre una campana de Gauss (media 100, desviación 15) frente a la población general.</p>
+    <div class="disclaimer">No es un test clínico ni psicométricamente validado. Es una aproximación con fines de entretenimiento — un IQ real requiere instrumentos normados (WAIS, Raven, etc.) administrados por un profesional.</div>
+    <div class="gauge-row">
+      <span class="gauge-label" id="progressLabel">0 / 15 respondidas</span>
+      <div class="gauge-track"><div class="gauge-fill" id="gaugeFill"></div></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div id="quiz"></div>
+  <div class="submit-row">
+    <button class="primary" id="submitBtn" disabled>Calcular resultado</button>
+    <div class="missing-note" id="missingNote"></div>
+  </div>
+
+  <div id="results">
+    <div class="result-panel">
+      <div class="result-headline">Resultado</div>
+      <div class="result-score"><span id="scoreNum">0</span><span id="scoreOf">/ 15 correctas</span></div>
+      <div class="result-score" style="font-size:28px;margin-top:6px;color:var(--teal);">CI estimado ≈ <span id="iqNum">100</span></div>
+      <div class="result-detail" id="resultDetail"></div>
+      <svg id="curve" viewBox="0 0 640 220"></svg>
+      <div class="curve-caption"><span>70</span><span>85</span><span>100</span><span>115</span><span>130</span><span>145</span></div>
+
+      <div class="breakdown">
+        <h3>Desglose por categoría</h3>
+        <div id="breakdownList"></div>
+      </div>
+
+      <div class="review">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:13px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:6px;">Revisión de respuestas</h3>
+        <div id="reviewList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>Generado como ejercicio informal · sin validez clínica · comparación estadística ilustrativa</footer>
+
+<script>
+const questions = [
+  {cat:"Series", prompt:"2, 6, 12, 20, 30, ¿?", options:["36","40","42","44"], correct:2},
+  {cat:"Series", prompt:"1, 1, 2, 3, 5, 8, ¿?", options:["11","13","14","15"], correct:1},
+  {cat:"Series", prompt:"3, 9, 27, 81, ¿?", options:["162","243","270","324"], correct:1},
+  {cat:"Series", prompt:"100, 95, 85, 70, 50, ¿?", options:["20","25","30","35"], correct:1},
+  {cat:"Analogías", prompt:"Libro es a Página como Árbol es a ___", options:["Bosque","Raíz","Hoja","Rama"], correct:2},
+  {cat:"Analogías", prompt:"Médico es a Hospital como Profesor es a ___", options:["Alumno","Escuela","Pizarra","Libro"], correct:1},
+  {cat:"Analogías", prompt:"Rápido es a Lento como Ruidoso es a ___", options:["Grande","Suave","Silencioso","Oscuro"], correct:2},
+  {cat:"Lógica", prompt:"Todos los Zorbs son Miks. Ningún Mik es Talp. ¿Puede un Zorb ser Talp?", options:["Sí","No","No se puede determinar"], correct:1},
+  {cat:"Lógica", prompt:"Ana es más alta que Beto. Beto es más alto que Carla. ¿Quién es el más bajo?", options:["Ana","Beto","Carla"], correct:2},
+  {cat:"Lógica", prompt:"¿Cuál no pertenece al grupo?", options:["Perro","Gato","Serpiente","Silla"], correct:3},
+  {cat:"Patrones", prompt:"A, C, E, G, ¿?", options:["H","I","J","K"], correct:1},
+  {cat:"Patrones", prompt:"B, D, G, K, ¿? (las diferencias entre letras aumentan)", options:["N","O","Q","R"], correct:2},
+  {cat:"Espacial", prompt:"En un dado, la cara 1 está opuesta a la cara 6, la 2 opuesta a la 5, y la 3 opuesta a la 4. Ves las caras 1, 2 y 3. ¿Qué cara está opuesta a la que ves marcada como 1, aunque no la veas?", options:["4","5","6","3"], correct:2},
+  {cat:"Cálculo", prompt:"Un tren recorre 60 km en 45 minutos. ¿Velocidad en km/h?", options:["60","75","80","90"], correct:2},
+  {cat:"Cálculo", prompt:"Si el doble de un número menos 7 es 15, ¿cuál es el número?", options:["8","9","11","12"], correct:2},
+];
+
+const quiz = document.getElementById('quiz');
+const answers = new Array(questions.length).fill(null);
+
+questions.forEach((q, i) => {
+  const card = document.createElement('div');
+  card.className = 'qcard';
+  card.innerHTML = `
+    <div class="idx">Ítem ${String(i+1).padStart(2,'0')} · ${q.cat}</div>
+    <div class="prompt">${q.prompt}</div>
+    <div class="options" data-qi="${i}">
+      ${q.options.map((opt, oi) => `
+        <button class="opt" data-oi="${oi}">
+          <span class="letter">${String.fromCharCode(65+oi)}</span>
+          <span>${opt}</span>
+        </button>
+      `).join('')}
+    </div>
+  `;
+  quiz.appendChild(card);
+});
+
+quiz.addEventListener('click', (e) => {
+  const btn = e.target.closest('.opt');
+  if (!btn) return;
+  const optsDiv = btn.closest('.options');
+  const qi = parseInt(optsDiv.dataset.qi);
+  const oi = parseInt(btn.dataset.oi);
+  answers[qi] = oi;
+  [...optsDiv.querySelectorAll('.opt')].forEach(o => o.classList.remove('selected'));
+  btn.classList.add('selected');
+  updateProgress();
+});
+
+function updateProgress(){
+  const answered = answers.filter(a => a !== null).length;
+  document.getElementById('progressLabel').textContent = `${answered} / ${questions.length} respondidas`;
+  document.getElementById('gaugeFill').style.width = (answered/questions.length*100) + '%';
+  document.getElementById('submitBtn').disabled = answered !== questions.length;
+}
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  const answered = answers.filter(a => a !== null).length;
+  if (answered !== questions.length){
+    document.getElementById('missingNote').textContent = `Faltan ${questions.length-answered} respuestas.`;
+    return;
+  }
+  showResults();
+});
+
+function normalCDF(x, mean, sd){
+  const z = (x-mean)/(sd*Math.sqrt(2));
+  const t = 1/(1+0.3275911*Math.abs(z));
+  const y = 1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-z*z);
+  const erf = z>=0 ? y : -y;
+  return 0.5*(1+erf);
+}
+
+function scoreToIQ(score, total){
+  // maps raw score to an illustrative IQ estimate, mean 100 sd 15
+  const pct = score/total;
+  // curve: 60% correct ~ 100, scaled roughly linear with steeper tails
+  const iq = 100 + (pct-0.6)*95;
+  return Math.round(Math.max(55, Math.min(148, iq)));
+}
+
+function showResults(){
+  let score = 0;
+  const byCat = {};
+  questions.forEach((q,i)=>{
+    const correct = answers[i]===q.correct;
+    if(correct) score++;
+    byCat[q.cat] = byCat[q.cat] || {ok:0,total:0};
+    byCat[q.cat].total++;
+    if(correct) byCat[q.cat].ok++;
+  });
+
+  const iq = scoreToIQ(score, questions.length);
+  const percentile = Math.round(normalCDF(iq,100,15)*1000)/10;
+
+  document.getElementById('scoreNum').textContent = score;
+  document.getElementById('iqNum').textContent = iq;
+
+  let detail;
+  if(percentile>=50){
+    detail = `Tu puntuación estimada supera aproximadamente al ${percentile}% de la distribución de referencia (media 100, DE 15). Recuerda: esto es una aproximación ilustrativa a partir de 15 ítems, no un resultado clínico.`;
+  } else {
+    detail = `Tu puntuación estimada se sitúa en el percentil ${percentile} de la distribución de referencia (media 100, DE 15) — es decir, por debajo de la mediana en esta muestra ilustrativa de 15 ítems. Un test corto tiene bastante margen de error.`;
+  }
+  document.getElementById('resultDetail').textContent = detail;
+
+  drawCurve(iq);
+  drawBreakdown(byCat);
+  drawReview();
+
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').scrollIntoView({behavior:'smooth'});
+}
+
+function drawCurve(iq){
+  const svg = document.getElementById('curve');
+  const W = 640, H = 220, padL = 20, padR = 20, padB = 30, padT = 10;
+  const plotW = W-padL-padR, plotH = H-padT-padB;
+  const xMin = 55, xMax = 145;
+  const mean=100, sd=15;
+
+  function xToPx(x){ return padL + (x-xMin)/(xMax-xMin)*plotW; }
+  function gaussY(x){ return Math.exp(-0.5*Math.pow((x-mean)/sd,2)); }
+
+  let path = 'M';
+  const pts = [];
+  for(let x=xMin; x<=xMax; x+=1){
+    const px = xToPx(x);
+    const py = padT + plotH - gaussY(x)*plotH*0.92;
+    pts.push([px,py]);
+  }
+  path += pts.map((p,i)=> (i===0?'':'L') + p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+
+  const baseline = padT+plotH;
+  const areaPath = `M${padL.toFixed(1)},${baseline} ` + pts.map(p=>`L${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ') + ` L${(padL+plotW).toFixed(1)},${baseline} Z`;
+
+  const markerX = xToPx(Math.max(xMin,Math.min(xMax,iq)));
+  const markerY = padT + plotH - gaussY(iq)*plotH*0.92;
+
+  const gridLines = [70,85,100,115,130,145].map(v=>{
+    const px = xToPx(v);
+    const isMean = v===100;
+    return `<line x1="${px}" y1="${padT}" x2="${px}" y2="${baseline}" stroke="${isMean? 'rgba(20,35,34,0.25)':'rgba(20,35,34,0.08)'}" stroke-width="1" stroke-dasharray="${isMean?'':'2,3'}"/>`;
+  }).join('');
+
+  svg.innerHTML = `
+    <path d="${areaPath}" fill="rgba(60,111,99,0.10)" stroke="none"/>
+    <path d="${path}" fill="none" stroke="#16241f" stroke-width="1.6"/>
+    ${gridLines}
+    <line x1="${padL}" y1="${baseline}" x2="${padL+plotW}" y2="${baseline}" stroke="rgba(20,35,34,0.3)" stroke-width="1"/>
+    <line class="marker-line" x1="${markerX}" y1="${baseline}" x2="${markerX}" y2="${markerY}" stroke="#b9812f" stroke-width="2" stroke-dasharray="0" style="opacity:0;">
+    </line>
+    <circle cx="${markerX}" cy="${markerY}" r="5" fill="#b9812f" style="opacity:0;" class="marker-dot"/>
+    <text x="${markerX}" y="${markerY-12}" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="13" font-weight="700" fill="#b9812f" style="opacity:0;" class="marker-label">Tú: ${iq}</text>
+  `;
+
+  // simple entrance animation
+  requestAnimationFrame(()=>{
+    const line = svg.querySelector('.marker-line');
+    const dot = svg.querySelector('.marker-dot');
+    const label = svg.querySelector('.marker-label');
+    [line,dot,label].forEach(el=>{
+      el.style.transition = 'opacity .6s ease';
+      el.style.opacity = 1;
+    });
+  });
+}
+
+const catLabels = {"Series":"Series numéricas","Analogías":"Analogías verbales","Lógica":"Lógica","Patrones":"Patrones de letras","Espacial":"Razonamiento espacial","Cálculo":"Cálculo rápido"};
+
+function drawBreakdown(byCat){
+  const el = document.getElementById('breakdownList');
+  el.innerHTML = Object.entries(byCat).map(([cat,v])=>{
+    const cls = v.ok===v.total ? 'ok' : (v.ok===0 ? 'bad' : '');
+    return `<div class="breakdown-row"><span class="cat">${catLabels[cat]||cat}</span><span class="mark ${cls}">${v.ok} / ${v.total}</span></div>`;
+  }).join('');
+}
+
+function drawReview(){
+  const el = document.getElementById('reviewList');
+  el.innerHTML = questions.map((q,i)=>{
+    const userAns = answers[i];
+    const correct = userAns===q.correct;
+    return `<div class="review-item">
+      <div class="q">${i+1}. ${q.prompt}</div>
+      <div class="a ${correct?'correct-tag':'wrong-tag'}">
+        Tu respuesta: ${q.options[userAns]} ${correct? '✓' : '✗ — correcta: '+q.options[q.correct]}
+      </div>
+    </div>`;
+  }).join('');
+}
+</script>
+</body>
+</html>
