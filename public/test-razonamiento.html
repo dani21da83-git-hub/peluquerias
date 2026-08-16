@@ -33,12 +33,14 @@
   .wrap{max-width:760px;margin:0 auto;padding:0 24px;}
 
   header.top{
-    padding:40px 24px 28px;
+    padding:14px 20px;
     border-bottom:1px solid var(--panel-border);
     background:var(--panel);
-    margin-bottom:40px;
+    margin-bottom:24px;
     position:sticky;top:0;z-index:10;
+    display:none;
   }
+  header.top.visible{display:block;}
   .top-inner{max-width:760px;margin:0 auto;}
   .eyebrow{
     font-size:11px;letter-spacing:.14em;text-transform:uppercase;
@@ -78,8 +80,8 @@
   .meta-row span b{color:var(--ink);font-weight:600;}
 
   .gauge-row{
-    display:flex;align-items:center;gap:14px;margin:20px 0 0;
-    font-size:12px;color:var(--ink-soft);
+    display:flex;align-items:center;gap:14px;margin:10px 0 0;
+    font-size:11px;color:var(--ink-soft);
   }
   .gauge-track{
     flex:1;height:3px;background:var(--panel-border);position:relative;border-radius:2px;
@@ -218,20 +220,39 @@
     font-size:11px;color:var(--ink-soft);border-top:1px solid var(--panel-border);
     padding-top:18px;
   }
+
+  .start-wrap{padding-top:44px;}
+  .start-wrap h1{
+    font-family:'Space Grotesk',sans-serif;font-weight:700;
+    font-size:clamp(26px,6vw,38px);line-height:1.08;margin:0 0 14px;letter-spacing:-0.01em;
+  }
+  .start-wrap .eyebrow-static{
+    font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--gold);font-weight:600;margin-bottom:10px;
+  }
+  .start-actions{margin-top:30px;}
+  .hidden{display:none !important;}
 </style>
 </head>
 <body>
 
-<header class="top">
+<div class="wrap start-wrap" id="startScreen">
+  <div class="eyebrow-static">Instrumento de Razonamiento &nbsp;·&nbsp; Lectura N.º 2</div>
+  <h1>Test de razonamiento comparativo</h1>
+  <p class="sub">30 ítems repartidos en 8 categorías: series numéricas, analogías, lógica, patrones de letras, razonamiento espacial y visual, cálculo y matrices numéricas. El resultado se sitúa sobre una campana de Gauss (media 100, DE 15) frente a la población general.</p>
+  <div class="disclaimer">No es un test clínico ni psicométricamente validado ni normado. Es una aproximación de mayor profundidad que la versión anterior, pero sigue sin sustituir instrumentos administrados por un profesional (WAIS, Raven, etc.), que usan cientos de ítems normados sobre muestras poblacionales.</div>
+  <div class="meta-row">
+    <span>Ítems: <b>30</b></span>
+    <span>Límite de tiempo: <b>20 minutos</b> para el conjunto — al agotarse se envía automáticamente</span>
+  </div>
+  <div class="start-actions">
+    <button class="primary" id="startBtn">Empezar test</button>
+  </div>
+</div>
+
+<header class="top" id="stickyHeader">
   <div class="top-inner">
-    <div class="eyebrow"><span>Instrumento de Razonamiento &nbsp;·&nbsp; Lectura N.º 2</span><span class="timer" id="timerDisplay">00:00</span></div>
-    <h1>Test de razonamiento comparativo</h1>
-    <p class="sub">30 ítems repartidos en 8 categorías: series numéricas, analogías, lógica, patrones de letras, razonamiento espacial y visual, cálculo y matrices numéricas. El resultado se sitúa sobre una campana de Gauss (media 100, DE 15) frente a la población general.</p>
-    <div class="disclaimer">No es un test clínico ni psicométricamente validado ni normado. Es una aproximación de mayor profundidad que la versión anterior, pero sigue sin sustituir instrumentos administrados por un profesional (WAIS, Raven, etc.), que usan cientos de ítems normados sobre muestras poblacionales.</div>
-    <div class="meta-row">
-      <span>Ítems: <b>30</b></span>
-      <span>Límite de tiempo: <b>20 minutos</b> para el conjunto — al agotarse se envía automáticamente</span>
-    </div>
+    <div class="eyebrow"><span>Ítem <span id="qCountLabel">0/30</span></span><span class="timer" id="timerDisplay">20:00</span></div>
     <div class="gauge-row">
       <span class="gauge-label" id="progressLabel">0 / 30 respondidas</span>
       <div class="gauge-track"><div class="gauge-fill" id="gaugeFill"></div></div>
@@ -239,7 +260,7 @@
   </div>
 </header>
 
-<div class="wrap">
+<div class="wrap hidden" id="testWrap">
   <div class="timeout-banner" id="timeoutBanner">Tiempo agotado — el test se envió automáticamente con las respuestas marcadas hasta ahora.</div>
   <div id="quiz"></div>
   <div class="submit-row">
@@ -381,17 +402,31 @@ function updateProgress(){
   const answered = answers.filter(a => a !== null).length;
   document.getElementById('progressLabel').textContent = `${answered} / ${questions.length} respondidas`;
   document.getElementById('gaugeFill').style.width = (answered/questions.length*100) + '%';
+  document.getElementById('qCountLabel').textContent = `${answered}/${questions.length}`;
   document.getElementById('submitBtn').disabled = answered !== questions.length;
 }
 
+// Start screen
+let timerInterval = null;
+let startTime = null;
+document.getElementById('startBtn').addEventListener('click', () => {
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('stickyHeader').classList.add('visible');
+  document.getElementById('testWrap').classList.remove('hidden');
+  startTime = Date.now();
+  timerInterval = setInterval(tick, 1000);
+  tick();
+  window.scrollTo({top:0, behavior:'instant'});
+});
+
 // Timer: 20-minute countdown, auto-submits at zero
 const TIME_LIMIT_SECONDS = 20*60;
-const startTime = Date.now();
 let finalElapsedSeconds = 0;
 let timedOut = false;
 let submitted = false;
 
 function tick(){
+  if(startTime===null) return;
   const elapsed = Math.floor((Date.now()-startTime)/1000);
   const remaining = Math.max(0, TIME_LIMIT_SECONDS - elapsed);
   const m = String(Math.floor(remaining/60)).padStart(2,'0');
@@ -409,8 +444,6 @@ function tick(){
     showResults();
   }
 }
-let timerInterval = setInterval(tick, 1000);
-tick();
 
 function lockQuiz(){
   document.querySelectorAll('.opt').forEach(o => o.classList.add('locked'));
