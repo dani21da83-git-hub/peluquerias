@@ -31,42 +31,17 @@
     padding:0 0 80px 0;
   }
   .wrap{max-width:760px;margin:0 auto;padding:0 24px;}
+  .hidden{display:none !important;}
 
-  header.top{
-    padding:14px 20px;
-    border-bottom:1px solid var(--panel-border);
-    background:var(--panel);
-    margin-bottom:24px;
-    position:sticky;top:0;z-index:10;
-    display:none;
-  }
-  header.top.visible{display:block;}
-  .top-inner{max-width:760px;margin:0 auto;}
-  .eyebrow{
+  /* start screen */
+  .start-wrap{padding-top:44px;}
+  .eyebrow-static{
     font-size:11px;letter-spacing:.14em;text-transform:uppercase;
     color:var(--gold);font-weight:600;margin-bottom:10px;
-    display:flex;justify-content:space-between;align-items:center;
   }
-  .timer{
-    font-family:'IBM Plex Mono',monospace;font-weight:500;letter-spacing:0;
-    color:var(--ink-soft);font-variant-numeric:tabular-nums;
-    transition:color .3s ease;
-  }
-  .timer.warn{color:var(--gold);font-weight:600;}
-  .timer.critical{color:var(--coral);font-weight:600;}
-  .opt:disabled, .opt.locked{opacity:.55;cursor:not-allowed;pointer-events:none;}
-  .timeout-banner{
-    display:none;background:var(--coral);color:#fff;font-size:12px;
-    padding:10px 14px;margin-bottom:18px;font-family:'Space Grotesk',sans-serif;
-    font-weight:600;letter-spacing:.02em;
-  }
-  h1{
-    font-family:'Space Grotesk',sans-serif;
-    font-weight:700;
-    font-size:clamp(26px,5vw,38px);
-    line-height:1.08;
-    margin:0 0 14px;
-    letter-spacing:-0.01em;
+  .start-wrap h1{
+    font-family:'Space Grotesk',sans-serif;font-weight:700;
+    font-size:clamp(26px,6vw,38px);line-height:1.08;margin:0 0 14px;letter-spacing:-0.01em;
   }
   .sub{color:var(--ink-soft);font-size:14px;line-height:1.6;max-width:56ch;}
   .disclaimer{
@@ -78,6 +53,45 @@
     flex-wrap:wrap;
   }
   .meta-row span b{color:var(--ink);font-weight:600;}
+  .scoring-note{
+    margin-top:16px;font-size:12px;color:var(--ink-soft);
+    background:var(--panel);border:1px solid var(--panel-border);
+    padding:12px 14px;line-height:1.7;max-width:56ch;
+  }
+  .scoring-note b{color:var(--ink);}
+  .start-actions{margin-top:30px;}
+
+  /* sticky in-test header */
+  header.top{
+    padding:12px 20px;
+    border-bottom:1px solid var(--panel-border);
+    background:var(--panel);
+    margin-bottom:24px;
+    position:sticky;top:0;z-index:10;
+    display:none;
+  }
+  header.top.visible{display:block;}
+  .top-inner{max-width:760px;margin:0 auto;}
+  .eyebrow{
+    font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--gold);font-weight:600;
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+  }
+  .eyebrow .right{display:flex;align-items:center;gap:10px;}
+  .timer{
+    font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:0;
+    color:var(--ink-soft);font-variant-numeric:tabular-nums;
+    transition:color .3s ease;
+  }
+  .timer.warn{color:var(--gold);}
+  .timer.critical{color:var(--coral);}
+  .btn-icon{
+    font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.04em;
+    border:1px solid var(--panel-border);background:#fff;color:var(--ink);
+    padding:4px 9px;cursor:pointer;
+  }
+  .btn-icon:hover{border-color:var(--teal);}
 
   .gauge-row{
     display:flex;align-items:center;gap:14px;margin:10px 0 0;
@@ -92,6 +106,12 @@
     background:var(--gold);transition:width .35s ease;
   }
   .gauge-label{font-variant-numeric:tabular-nums;white-space:nowrap;}
+
+  .timeout-banner{
+    display:none;background:var(--coral);color:#fff;font-size:12px;
+    padding:10px 14px;margin-bottom:18px;font-family:'Space Grotesk',sans-serif;
+    font-weight:600;letter-spacing:.02em;
+  }
 
   .section-label{
     font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;
@@ -141,6 +161,7 @@
   }
   .opt.selected{border-color:var(--teal);background:#eef5f2;}
   .opt.selected .letter{background:var(--teal);color:#fff;border-color:var(--teal);}
+  .opt.locked{opacity:.55;cursor:not-allowed;pointer-events:none;}
 
   .submit-row{margin-top:34px;text-align:center;}
   button.primary{
@@ -152,7 +173,27 @@
   }
   button.primary:hover{background:var(--teal);}
   button.primary:disabled{background:#b8bdb6;cursor:not-allowed;}
+  button.secondary{
+    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;
+    letter-spacing:.03em;text-transform:uppercase;
+    background:transparent;color:var(--ink);
+    border:1px solid var(--panel-border);padding:14px 26px;cursor:pointer;
+    margin-left:10px;
+  }
+  button.secondary:hover{border-color:var(--teal);color:var(--teal);}
   .missing-note{font-size:12px;color:var(--coral);margin-top:10px;min-height:16px;}
+
+  /* pause overlay */
+  #pauseOverlay{
+    display:none;position:fixed;inset:0;background:rgba(238,240,234,0.97);
+    z-index:20;align-items:center;justify-content:center;flex-direction:column;
+    text-align:center;padding:24px;
+  }
+  #pauseOverlay.visible{display:flex;}
+  #pauseOverlay .pause-title{
+    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:24px;margin-bottom:10px;
+  }
+  #pauseOverlay .pause-sub{color:var(--ink-soft);font-size:13px;margin-bottom:26px;max-width:40ch;line-height:1.6;}
 
   /* results */
   #results{display:none;}
@@ -180,6 +221,16 @@
     padding:12px 14px;line-height:1.6;margin-bottom:26px;
   }
   .error-note b{color:var(--ink);}
+  .stat-row{
+    display:flex;gap:18px;flex-wrap:wrap;margin-bottom:26px;font-size:12px;
+  }
+  .stat-chip{
+    background:#fff;border:1px solid var(--panel-border);padding:9px 13px;
+  }
+  .stat-chip .n{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;display:block;}
+  .stat-chip.ok .n{color:var(--teal);}
+  .stat-chip.bad .n{color:var(--coral);}
+  .stat-chip.neutral .n{color:var(--ink-soft);}
   svg#curve{width:100%;height:auto;display:block;}
   .curve-caption{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-soft);margin-top:4px;}
 
@@ -214,36 +265,28 @@
   .review-item .a{color:var(--ink-soft);}
   .review-item .a.correct-tag{color:var(--teal);}
   .review-item .a.wrong-tag{color:var(--coral);}
+  .review-item .a.blank-tag{color:var(--ink-soft);}
 
   footer{
     max-width:760px;margin:60px auto 0;padding:0 24px;
     font-size:11px;color:var(--ink-soft);border-top:1px solid var(--panel-border);
     padding-top:18px;
   }
-
-  .start-wrap{padding-top:44px;}
-  .start-wrap h1{
-    font-family:'Space Grotesk',sans-serif;font-weight:700;
-    font-size:clamp(26px,6vw,38px);line-height:1.08;margin:0 0 14px;letter-spacing:-0.01em;
-  }
-  .start-wrap .eyebrow-static{
-    font-size:11px;letter-spacing:.14em;text-transform:uppercase;
-    color:var(--gold);font-weight:600;margin-bottom:10px;
-  }
-  .start-actions{margin-top:30px;}
-  .hidden{display:none !important;}
 </style>
 </head>
 <body>
 
 <div class="wrap start-wrap" id="startScreen">
-  <div class="eyebrow-static">Instrumento de Razonamiento &nbsp;·&nbsp; Lectura N.º 2</div>
+  <div class="eyebrow-static">Instrumento de Razonamiento &nbsp;·&nbsp; Lectura N.º 3</div>
   <h1>Test de razonamiento comparativo</h1>
-  <p class="sub">30 ítems repartidos en 8 categorías: series numéricas, analogías, lógica, patrones de letras, razonamiento espacial y visual, cálculo y matrices numéricas. El resultado se sitúa sobre una campana de Gauss (media 100, DE 15) frente a la población general.</p>
-  <div class="disclaimer">No es un test clínico ni psicométricamente validado ni normado. Es una aproximación de mayor profundidad que la versión anterior, pero sigue sin sustituir instrumentos administrados por un profesional (WAIS, Raven, etc.), que usan cientos de ítems normados sobre muestras poblacionales.</div>
+  <p class="sub">30 ítems repartidos en 8 categorías: series numéricas, analogías, lógica, patrones de letras (abecedario español, con Ñ), razonamiento espacial y visual, cálculo y matrices numéricas. El resultado se sitúa sobre una campana de Gauss (media 100, DE 15) frente a la población general.</p>
+  <div class="disclaimer">No es un test clínico ni psicométricamente validado ni normado. Es una aproximación informal, sin sustituir instrumentos administrados por un profesional (WAIS, Raven, etc.).</div>
   <div class="meta-row">
     <span>Ítems: <b>30</b></span>
-    <span>Límite de tiempo: <b>20 minutos</b> para el conjunto — al agotarse se envía automáticamente</span>
+    <span>Límite de tiempo: <b>20 minutos</b> — al agotarse se envía automáticamente</span>
+  </div>
+  <div class="scoring-note">
+    <b>Puntuación:</b> cada acierto suma +1. Fallar y dejar en blanco no penalizan. Para limitar el efecto de adivinar al azar, cada pregunta tiene 5 opciones (las de lógica de tipo Sí/No/No se puede determinar mantienen sus 3 opciones naturales). Puedes <b>pausar</b> el test o <b>terminarlo antes</b> de las 30 preguntas — lo no respondido simplemente no suma.
   </div>
   <div class="start-actions">
     <button class="primary" id="startBtn">Empezar test</button>
@@ -252,7 +295,13 @@
 
 <header class="top" id="stickyHeader">
   <div class="top-inner">
-    <div class="eyebrow"><span>Ítem <span id="qCountLabel">0/30</span></span><span class="timer" id="timerDisplay">20:00</span></div>
+    <div class="eyebrow">
+      <span>Ítem <span id="qCountLabel">0/30</span></span>
+      <span class="right">
+        <span class="timer" id="timerDisplay">20:00</span>
+        <button class="btn-icon" id="pauseBtn">Pausar</button>
+      </span>
+    </div>
     <div class="gauge-row">
       <span class="gauge-label" id="progressLabel">0 / 30 respondidas</span>
       <div class="gauge-track"><div class="gauge-fill" id="gaugeFill"></div></div>
@@ -260,11 +309,18 @@
   </div>
 </header>
 
+<div id="pauseOverlay">
+  <div class="pause-title">Test en pausa</div>
+  <div class="pause-sub">El cronómetro está detenido. Tus respuestas se han guardado. Pulsa reanudar cuando estés listo para continuar.</div>
+  <button class="primary" id="resumeBtn">Reanudar</button>
+</div>
+
 <div class="wrap hidden" id="testWrap">
   <div class="timeout-banner" id="timeoutBanner">Tiempo agotado — el test se envió automáticamente con las respuestas marcadas hasta ahora.</div>
   <div id="quiz"></div>
   <div class="submit-row">
     <button class="primary" id="submitBtn" disabled>Calcular resultado</button>
+    <button class="secondary" id="finishBtn">Terminar ahora</button>
     <div class="missing-note" id="missingNote"></div>
   </div>
 
@@ -275,6 +331,13 @@
       <div class="result-score" style="font-size:26px;margin-top:6px;color:var(--teal);">CI estimado ≈ <span id="iqNum">100</span></div>
       <div class="band-tag" id="bandTag">Promedio</div>
       <div class="result-detail" id="resultDetail"></div>
+
+      <div class="stat-row">
+        <div class="stat-chip ok"><span class="n" id="statCorrect">0</span>Correctas</div>
+        <div class="stat-chip bad"><span class="n" id="statWrong">0</span>Incorrectas</div>
+        <div class="stat-chip neutral"><span class="n" id="statBlank">0</span>En blanco</div>
+      </div>
+
       <div class="error-note" id="errorNote"></div>
 
       <svg id="curve" viewBox="0 0 640 220"></svg>
@@ -303,50 +366,50 @@
 <script>
 const questions = [
   // Series numéricas
-  {cat:"Series", prompt:"2, 6, 12, 20, 30, ¿?", options:["36","40","42","44"], correct:2},
-  {cat:"Series", prompt:"1, 1, 2, 3, 5, 8, ¿?", options:["11","13","14","15"], correct:1},
-  {cat:"Series", prompt:"3, 9, 27, 81, ¿?", options:["162","243","270","324"], correct:1},
-  {cat:"Series", prompt:"100, 95, 85, 70, 50, ¿?", options:["20","25","30","35"], correct:1},
-  {cat:"Series", prompt:"5, 10, 20, 35, 55, ¿?", options:["75","80","85","90"], correct:1},
+  {cat:"Series", prompt:"4, 7, 11, 16, 22, ¿?", options:["27","28","29","30","31"], correct:2},
+  {cat:"Series", prompt:"2, 4, 8, 16, 32, ¿?", options:["40","48","56","64","72"], correct:3},
+  {cat:"Series", prompt:"81, 27, 9, 3, ¿?", options:["0","1","2","3","4"], correct:1},
+  {cat:"Series", prompt:"1, 4, 9, 16, 25, ¿?", options:["30","32","35","36","40"], correct:3},
+  {cat:"Series", prompt:"7, 12, 19, 28, ¿?", options:["36","38","39","41","44"], correct:2},
 
   // Analogías verbales
-  {cat:"Analogías", prompt:"Libro es a Página como Árbol es a ___", options:["Bosque","Raíz","Hoja","Rama"], correct:2},
-  {cat:"Analogías", prompt:"Médico es a Hospital como Profesor es a ___", options:["Alumno","Escuela","Pizarra","Libro"], correct:1},
-  {cat:"Analogías", prompt:"Rápido es a Lento como Ruidoso es a ___", options:["Grande","Suave","Silencioso","Oscuro"], correct:2},
-  {cat:"Analogías", prompt:"Llave es a Cerradura como Contraseña es a ___", options:["Ordenador","Acceso","Usuario","Seguridad"], correct:1},
-  {cat:"Analogías", prompt:"Semilla es a Árbol como Huevo es a ___", options:["Nido","Ave","Pluma","Vuelo"], correct:1},
+  {cat:"Analogías", prompt:"Océano es a Agua como Desierto es a ___", options:["Calor","Arena","Cactus","Sequía","Dunas"], correct:1},
+  {cat:"Analogías", prompt:"Pintor es a Cuadro como Escultor es a ___", options:["Piedra","Estatua","Museo","Cincel","Bronce"], correct:1},
+  {cat:"Analogías", prompt:"Noche es a Luna como Día es a ___", options:["Estrellas","Sol","Cielo","Nube","Luz"], correct:1},
+  {cat:"Analogías", prompt:"Pájaro es a Nido como Abeja es a ___", options:["Miel","Colmena","Flor","Panal","Enjambre"], correct:1},
+  {cat:"Analogías", prompt:"Doctor es a Paciente como Abogado es a ___", options:["Juez","Cliente","Tribunal","Ley","Fiscal"], correct:1},
 
   // Lógica
-  {cat:"Lógica", prompt:"Todos los Zorbs son Miks. Ningún Mik es Talp. ¿Puede un Zorb ser Talp?", options:["Sí","No","No se puede determinar"], correct:1},
-  {cat:"Lógica", prompt:"Ana es más alta que Beto. Beto es más alto que Carla. ¿Quién es el más bajo?", options:["Ana","Beto","Carla"], correct:2},
-  {cat:"Lógica", prompt:"¿Cuál no pertenece al grupo?", options:["Perro","Gato","Serpiente","Silla"], correct:3},
-  {cat:"Lógica", prompt:"Todos los A son B. Algunos B son C. ¿Se puede concluir que algunos A son C?", options:["Sí","No","No se puede determinar"], correct:2},
-  {cat:"Lógica", prompt:"Si llueve, el suelo se moja. El suelo está mojado. ¿Necesariamente llovió?", options:["Sí","No","No se puede determinar"], correct:1},
+  {cat:"Lógica", prompt:"Todos los Bloops son Razz. Algunos Razz son Fenk. ¿Se puede concluir que algunos Bloops son Fenk?", options:["Sí","No","No se puede determinar"], correct:2},
+  {cat:"Lógica", prompt:"Pedro es más joven que Luis. Luis es más joven que Marta. ¿Quién es el mayor?", options:["Pedro","Luis","Marta"], correct:2},
+  {cat:"Lógica", prompt:"¿Cuál no pertenece al grupo?", options:["Manzana","Plátano","Zanahoria","Pera","Uva"], correct:2},
+  {cat:"Lógica", prompt:"Ningún reptil es mamífero. Todas las serpientes son reptiles. ¿Puede una serpiente ser mamífero?", options:["Sí","No","No se puede determinar"], correct:1},
+  {cat:"Lógica", prompt:"Si estudio, entonces apruebo. No aprobé. ¿Necesariamente no estudié?", options:["Sí","No","No se puede determinar"], correct:0},
 
-  // Patrones de letras
-  {cat:"Letras", prompt:"A, C, E, G, ¿?", options:["H","I","J","K"], correct:1},
-  {cat:"Letras", prompt:"B, D, G, K, ¿? (las diferencias entre letras aumentan)", options:["N","O","Q","R"], correct:2},
-  {cat:"Letras", prompt:"Z, Y, X, W, ¿?", options:["V","U","T","S"], correct:0},
-  {cat:"Letras", prompt:"A, D, H, M, ¿? (las diferencias aumentan de 1 en 1)", options:["S","T","U","V"], correct:1},
+  // Patrones de letras (abecedario español: A B C D E F G H I J K L M N Ñ O P Q R S T U V W X Y Z)
+  {cat:"Letras", prompt:"B, D, F, H, ¿?", options:["I","J","K","Ñ","O"], correct:1},
+  {cat:"Letras", prompt:"A, D, G, J, ¿?", options:["K","L","M","N","Ñ"], correct:2},
+  {cat:"Letras", prompt:"Z, X, V, T, ¿?", options:["S","R","Q","P","O"], correct:1},
+  {cat:"Letras", prompt:"K, M, Ñ, ¿? (abecedario español: ...M, N, Ñ, O, P...)", options:["N","O","P","Q","R"], correct:2},
 
   // Espacial
-  {cat:"Espacial", prompt:"En un dado, la cara 1 está opuesta a la 6, la 2 opuesta a la 5, y la 3 opuesta a la 4. Ves las caras 1, 2 y 3. ¿Qué cara está opuesta a la cara 1, aunque no la veas?", options:["4","5","6","3"], correct:2},
-  {cat:"Espacial", prompt:"Un reloj analógico marca las 3:00. Si la aguja horaria avanza 90°, ¿qué hora marca?", options:["4:30","6:00","9:00","12:00"], correct:1},
+  {cat:"Espacial", prompt:"En un dado, la cara 1 está opuesta a la 6, la 2 opuesta a la 5, y la 3 opuesta a la 4. Ves las caras 2, 4 y 6. ¿Qué cara está opuesta a la cara 4, aunque no la veas?", options:["1","2","3","5","6"], correct:2},
+  {cat:"Espacial", prompt:"Un reloj marca las 9:00. Si el minutero da una vuelta completa (60 minutos), ¿qué hora marca?", options:["9:30","10:00","10:30","11:00","12:00"], correct:1},
 
   // Patrones visuales
-  {cat:"Visual", prompt:"Círculo, Cuadrado, Triángulo, Círculo, Cuadrado, Triángulo, Círculo, ¿?", options:["Círculo","Cuadrado","Triángulo","Rombo"], correct:1},
-  {cat:"Visual", prompt:"En una fila hay 2 cuadrados, luego 3 triángulos, luego 4 círculos. Siguiendo el patrón (la cantidad aumenta en 1 cada vez), ¿cuántas figuras nuevas seguirían?", options:["3","4","5","6"], correct:2},
+  {cat:"Visual", prompt:"Rombo, Círculo, Triángulo, Rombo, Círculo, Triángulo, Rombo, ¿?", options:["Rombo","Círculo","Triángulo","Cuadrado","Estrella"], correct:1},
+  {cat:"Visual", prompt:"Grande, Pequeña, Grande, Pequeña, Grande, ¿?", options:["Grande","Pequeña","Mediana","Grande y Pequeña","Ninguna"], correct:1},
 
   // Cálculo rápido
-  {cat:"Cálculo", prompt:"Un tren recorre 60 km en 45 minutos. ¿Velocidad en km/h?", options:["60","75","80","90"], correct:2},
-  {cat:"Cálculo", prompt:"Si el doble de un número menos 7 es 15, ¿cuál es el número?", options:["8","9","11","12"], correct:2},
-  {cat:"Cálculo", prompt:"Un producto cuesta 80€ con un descuento del 25%. ¿Precio final?", options:["55€","60€","65€","70€"], correct:1},
-  {cat:"Cálculo", prompt:"3 obreros tardan 12 días en construir un muro trabajando al mismo ritmo. Si son 6 obreros, ¿cuántos días tardarán?", options:["4","6","8","9"], correct:1},
+  {cat:"Cálculo", prompt:"Un coche recorre 150 km en 2 horas y media. ¿Velocidad media en km/h?", options:["50","55","60","65","70"], correct:2},
+  {cat:"Cálculo", prompt:"El triple de un número más 4 es 25. ¿Cuál es el número?", options:["6","7","8","9","10"], correct:1},
+  {cat:"Cálculo", prompt:"Una camisa cuesta 45€ con un 20% de descuento. ¿Precio final?", options:["32€","34€","36€","38€","40€"], correct:2},
+  {cat:"Cálculo", prompt:"4 máquinas producen 100 piezas en 5 horas al mismo ritmo. ¿Cuántas piezas producen 8 máquinas en 5 horas?", options:["160","180","200","220","240"], correct:2},
 
   // Matrices numéricas
-  {cat:"Matrices", prompt:"Completa la casilla vacía:", grid:["2","4","6","8","10","12","14","16","?"], options:["17","18","19","20"], correct:1},
-  {cat:"Matrices", prompt:"Completa la casilla vacía:", grid:["1","4","9","16","25","36","49","64","?"], options:["72","81","90","100"], correct:1},
-  {cat:"Matrices", prompt:"Completa la casilla vacía:", grid:["5","10","15","20","25","30","35","40","?"], options:["42","45","48","50"], correct:1},
+  {cat:"Matrices", prompt:"Completa la casilla vacía:", grid:["3","6","9","12","15","18","21","24","?"], options:["25","26","27","28","29"], correct:2},
+  {cat:"Matrices", prompt:"Completa la casilla vacía (columna 3 = columna 1 + columna 2):", grid:["2","3","5","4","6","10","6","9","?"], options:["12","14","15","16","18"], correct:2},
+  {cat:"Matrices", prompt:"Completa la casilla vacía:", grid:["1","2","4","8","16","32","64","128","?"], options:["192","224","256","288","320"], correct:2},
 ];
 
 const catLabels = {
@@ -387,6 +450,7 @@ questions.forEach((q, i) => {
 });
 
 quiz.addEventListener('click', (e) => {
+  if(paused) return;
   const btn = e.target.closest('.opt');
   if (!btn) return;
   const optsDiv = btn.closest('.options');
@@ -406,9 +470,17 @@ function updateProgress(){
   document.getElementById('submitBtn').disabled = answered !== questions.length;
 }
 
-// Start screen
-let timerInterval = null;
+// ---- Start / timer / pause state ----
+const TIME_LIMIT_SECONDS = 20*60;
 let startTime = null;
+let timerInterval = null;
+let totalPausedMs = 0;
+let pauseStart = null;
+let paused = false;
+let finalElapsedSeconds = 0;
+let timedOut = false;
+let submitted = false;
+
 document.getElementById('startBtn').addEventListener('click', () => {
   document.getElementById('startScreen').classList.add('hidden');
   document.getElementById('stickyHeader').classList.add('visible');
@@ -419,15 +491,9 @@ document.getElementById('startBtn').addEventListener('click', () => {
   window.scrollTo({top:0, behavior:'instant'});
 });
 
-// Timer: 20-minute countdown, auto-submits at zero
-const TIME_LIMIT_SECONDS = 20*60;
-let finalElapsedSeconds = 0;
-let timedOut = false;
-let submitted = false;
-
 function tick(){
-  if(startTime===null) return;
-  const elapsed = Math.floor((Date.now()-startTime)/1000);
+  if(startTime===null || paused) return;
+  const elapsed = Math.floor((Date.now()-startTime-totalPausedMs)/1000);
   const remaining = Math.max(0, TIME_LIMIT_SECONDS - elapsed);
   const m = String(Math.floor(remaining/60)).padStart(2,'0');
   const s = String(remaining%60).padStart(2,'0');
@@ -445,9 +511,27 @@ function tick(){
   }
 }
 
+document.getElementById('pauseBtn').addEventListener('click', () => {
+  if(submitted || paused) return;
+  paused = true;
+  pauseStart = Date.now();
+  document.getElementById('pauseOverlay').classList.add('visible');
+});
+
+document.getElementById('resumeBtn').addEventListener('click', () => {
+  if(!paused) return;
+  totalPausedMs += Date.now()-pauseStart;
+  pauseStart = null;
+  paused = false;
+  document.getElementById('pauseOverlay').classList.remove('visible');
+  tick();
+});
+
 function lockQuiz(){
   document.querySelectorAll('.opt').forEach(o => o.classList.add('locked'));
   document.getElementById('submitBtn').disabled = true;
+  document.getElementById('finishBtn').disabled = true;
+  document.getElementById('pauseBtn').disabled = true;
   document.getElementById('missingNote').textContent = '';
 }
 
@@ -457,8 +541,23 @@ document.getElementById('submitBtn').addEventListener('click', () => {
     document.getElementById('missingNote').textContent = `Faltan ${questions.length-answered} respuestas.`;
     return;
   }
-  finalElapsedSeconds = Math.floor((Date.now()-startTime)/1000);
+  finalElapsedSeconds = Math.floor((Date.now()-startTime-totalPausedMs)/1000);
   clearInterval(timerInterval);
+  lockQuiz();
+  showResults();
+});
+
+document.getElementById('finishBtn').addEventListener('click', () => {
+  if(submitted) return;
+  const answered = answers.filter(a => a !== null).length;
+  const unanswered = questions.length - answered;
+  if(unanswered > 0){
+    const ok = confirm(`Tienes ${unanswered} pregunta(s) sin responder. No penalizan, pero tampoco suman. ¿Terminar de todas formas?`);
+    if(!ok) return;
+  }
+  finalElapsedSeconds = Math.floor((Date.now()-startTime-totalPausedMs)/1000);
+  clearInterval(timerInterval);
+  lockQuiz();
   showResults();
 });
 
@@ -470,8 +569,8 @@ function normalCDF(x, mean, sd){
   return 0.5*(1+erf);
 }
 
-function scoreToIQ(score, total){
-  const pct = score/total;
+function scoreToIQ(correct, total){
+  const pct = correct/total;
   const iq = 100 + (pct-0.6)*95;
   return Math.round(Math.max(55, Math.min(148, iq)));
 }
@@ -493,42 +592,47 @@ function bandFor(iq){
 function showResults(){
   if(submitted) return;
   submitted = true;
-  let score = 0;
+
+  let correct = 0, wrong = 0, blank = 0;
   const byCat = {};
   questions.forEach((q,i)=>{
-    const correct = answers[i]===q.correct;
-    if(correct) score++;
+    const a = answers[i];
     byCat[q.cat] = byCat[q.cat] || {ok:0,total:0};
     byCat[q.cat].total++;
-    if(correct) byCat[q.cat].ok++;
+    if(a===null){
+      blank++;
+    } else if(a===q.correct){
+      correct++;
+      byCat[q.cat].ok++;
+    } else {
+      wrong++;
+    }
   });
 
-  const iq = scoreToIQ(score, questions.length);
+  const rawScore = correct;
+  const iq = scoreToIQ(rawScore, questions.length);
   const percentile = Math.round(normalCDF(iq,100,15)*1000)/10;
   const band = bandFor(iq);
 
-  document.getElementById('scoreNum').textContent = score;
+  document.getElementById('scoreNum').textContent = correct;
   document.getElementById('iqNum').textContent = iq;
   document.getElementById('bandTag').textContent = band.label;
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statBlank').textContent = blank;
 
   const mins = Math.floor(finalElapsedSeconds/60);
   const secs = finalElapsedSeconds%60;
   const timeStr = timedOut ? `20 min 0s (tiempo agotado)` : `${mins} min ${secs}s`;
-  const unanswered = answers.filter(a => a===null).length;
 
-  let detail;
-  if(percentile>=50){
-    detail = `Tu puntuación estimada supera aproximadamente al ${percentile}% de la distribución de referencia (media 100, DE 15), lo que la sitúa en la banda "${band.label}". Tiempo total: ${timeStr}.`;
-  } else {
-    detail = `Tu puntuación estimada se sitúa en el percentil ${percentile} de la distribución de referencia (media 100, DE 15), en la banda "${band.label}". Tiempo total: ${timeStr}.`;
-  }
-  if(unanswered>0){
-    detail += ` ${unanswered} de 30 preguntas quedaron sin responder por el límite de tiempo y se contaron como incorrectas.`;
+  let detail = `Acertaste ${correct} de 30, lo que se traduce en un CI estimado situado en el percentil ${percentile} de la distribución de referencia (media 100, DE 15) — banda "${band.label}". Tiempo empleado: ${timeStr}.`;
+  if(blank>0 || wrong>0){
+    detail += ` ${wrong} incorrecta(s) y ${blank} en blanco — ninguna de las dos penaliza, solo los aciertos suman.`;
   }
   document.getElementById('resultDetail').textContent = detail;
 
   document.getElementById('errorNote').innerHTML =
-    `<b>Margen de error:</b> con 30 ítems informales (sin normar sobre una muestra poblacional), el margen de error típico ronda los ±8–10 puntos de CI. Trata este número como una estimación orientativa, no como un diagnóstico.`;
+    `<b>Margen de error:</b> con 30 ítems informales, el margen de error típico ronda los ±8–10 puntos de CI. Ampliar la mayoría de preguntas a 5 opciones reduce la probabilidad de acertar por azar (de ~25-33% a ~20%), pero no la elimina. Trata este número como una estimación orientativa, no como un diagnóstico.`;
 
   drawCurve(iq);
   drawBandTable(iq);
@@ -611,13 +715,17 @@ function drawReview(){
   const el = document.getElementById('reviewList');
   el.innerHTML = questions.map((q,i)=>{
     const userAns = answers[i];
-    const correct = userAns===q.correct;
-    const userLabel = userAns===null ? 'Sin responder' : q.options[userAns];
+    let cls, label;
+    if(userAns===null){
+      cls = 'blank-tag'; label = 'Sin responder';
+    } else if(userAns===q.correct){
+      cls = 'correct-tag'; label = `${q.options[userAns]} ✓`;
+    } else {
+      cls = 'wrong-tag'; label = `${q.options[userAns]} ✗ — correcta: ${q.options[q.correct]}`;
+    }
     return `<div class="review-item">
       <div class="q">${i+1}. ${q.prompt}</div>
-      <div class="a ${correct?'correct-tag':'wrong-tag'}">
-        Tu respuesta: ${userLabel} ${correct? '✓' : '✗ — correcta: '+q.options[q.correct]}
-      </div>
+      <div class="a ${cls}">Tu respuesta: ${label}</div>
     </div>`;
   }).join('');
 }
