@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ejercicio 3 - página completa</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+/* Tokens del DS (mismos nombres que en Figma, con guiones en lugar de barras) */
+--color-content-general-1:#2c2c2c;--color-content-general-2:#474747cc;
+--color-background-general-1:#ffffff;--color-surface-general-1:#ffffff;--color-surface-general-2:#dcebe1;--color-surface-general-3:#f9f9f9;
+--color-border-general-1:#c8d9d0;--color-border-interactive-active:#699282;
+--color-icon-accent-1:#00a443;--color-icon-general-1:#2f6852;--color-content-interactive-active:#2f6852;
+--color-surface-interactive-active:#007f33;
+--color-button-background-active-1:#2f6852;--color-button-content-active-1:#fffaf6;
+--color-button-background-active-2:#ffffff00;--color-button-content-active-2:#2f6852;--color-button-border-active:#2f6852;
+--size-space-0:0;--size-space-2:2px;--size-space-4:4px;--size-space-8:8px;--size-space-12:12px;--size-space-16:16px;--size-space-20:20px;--size-space-24:24px;--size-space-32:32px;--size-space-40:40px;--size-space-48:48px;--size-space-56:56px;--size-space-64:64px;--size-space-80:80px;
+--size-icons-xs:16px;--size-icons-s:24px;--size-pictos-xl:64px;
+--border-radius-none:0;--border-radius-m:8px;--border-radius-l:16px;--border-radius-xxl:100px;
+--border-width-s:1px;--border-width-l:2px;--border-width-xl:3px;
+--floating:0 4px 8px #00000014;
+--font-heading:"IberPangea","Inter",Arial,sans-serif;--font-text:"IberPangea Text","Inter",Arial,sans-serif;
+--title-l:600 40px/48px var(--font-heading);--title-m:600 32px/40px var(--font-heading);--title-s:600 24px/32px var(--font-heading);--title-xs:600 18px/24px var(--font-heading);
+--body-regular-l:400 18px/24px var(--font-heading);--body-regular-xl:400 24px/32px var(--font-heading);--body-smbold-l:600 18px/24px var(--font-heading);
+--body-regular-m:400 16px/22px var(--font-text);--body-smbold-m:600 16px/22px var(--font-text);--body-regular-s:400 14px/20px var(--font-text);--body-smbold-s:600 14px/20px var(--font-text);--body-regular-xs:400 12px/16px var(--font-text);--button-main-m:600 16px/24px var(--font-text);
+--page-width-1200-1399:1200px;--page-margin-1200-1399:102px;
+/* Valores que no están en Figma (supuestos) */
+--extra-button-hover:#24533f;--extra-image-bg:#fde0e6;--extra-logo-bg:#e9efe9;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--color-background-general-1);color:var(--color-content-general-1);font:var(--body-regular-m);min-width:1200px}
+h1,h2,h3,p,ul{margin:0;padding:0}
+ul{list-style:none}
+a{color:inherit}
+.page{width:var(--page-width-1200-1399);margin:0 auto;background:var(--color-background-general-1)}
+.ck{flex:none;color:var(--color-icon-accent-1)}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:56px;min-width:200px;padding:0 var(--size-space-40);border-radius:var(--border-radius-xxl);border:var(--border-width-l) solid var(--color-button-background-active-1);background:var(--color-button-background-active-1);color:var(--color-button-content-active-1);font:var(--button-main-m);text-decoration:none;cursor:pointer}
+.btn:hover{background:var(--extra-button-hover);border-color:var(--extra-button-hover)}
+.btn.o{background:var(--color-button-background-active-2);color:var(--color-button-content-active-2);border-color:var(--color-button-border-active);font:var(--body-smbold-s)}
+.btn.o:hover{background:var(--color-surface-general-2)}
+a:focus-visible,button:focus-visible{outline:2px solid #007acb;outline-offset:3px}
+/* Menu */
+.mn{height:64px}
+.mn .tp{height:32px;background:var(--color-surface-general-3);display:flex;justify-content:space-between;align-items:center;padding:0 var(--size-space-40);font:var(--body-regular-s);color:var(--color-content-general-2)}
+.mn .tp div{display:flex;gap:var(--size-space-32)}
+.mn .mb{height:64px;border-bottom:var(--border-width-s) solid var(--color-border-general-1);display:flex;align-items:center;padding:0 var(--size-space-40);gap:var(--size-space-32)}
+.logo{width:126px;height:32px;border-radius:var(--border-radius-m);background:var(--extra-logo-bg);color:var(--color-icon-general-1);display:flex;align-items:center;justify-content:center;font:var(--body-smbold-s)}
+.mn nav{display:flex;gap:var(--size-space-32);font:var(--body-smbold-s);flex:1}
+.mn nav a{text-decoration:none}
+.ic{display:flex;gap:var(--size-space-16);color:var(--color-icon-general-1)}
+.ic span{width:24px;height:24px;border:2px solid currentColor;border-radius:50%}
+/* Breadcrumbs */
+.bc{height:50px;display:flex;align-items:center;padding-left:var(--size-space-40);font:var(--body-regular-s);color:var(--color-content-general-2);gap:var(--size-space-8)}
+.bc b{color:var(--color-content-general-1);font-weight:600}
+/* Hero */
+.hr{height:530px;padding:var(--size-space-40) var(--page-margin-1200-1399);display:flex;gap:38px}
+.hr .tx{flex:0 0 480px;display:flex;flex-direction:column;justify-content:center}
+.hr .ey{font:var(--body-smbold-m);color:var(--color-content-general-2);margin-bottom:var(--size-space-12)}
+.hr h1{font:var(--title-l);letter-spacing:-0.035em}
+.hr .lead{font:var(--body-regular-l);margin-top:var(--size-space-24)}
+.hr ul{margin-top:var(--size-space-24);display:flex;flex-direction:column;gap:var(--size-space-16)}
+.hr li{display:flex;gap:var(--size-space-8);align-items:center;font:var(--body-smbold-m)}
+.hr .btn{margin-top:var(--size-space-32);align-self:flex-start}
+.img{background:var(--extra-image-bg);border-radius:var(--border-radius-l);display:flex;align-items:center;justify-content:center}
+.hr .img{flex:1;height:450px}
+/* Legal */
+.lg{height:72px;padding:0 var(--page-margin-1200-1399)}
+.lg p{font:var(--body-regular-xs);color:var(--color-content-general-2);height:32px}
+/* Benefits */
+.bn{height:384px;padding:var(--size-space-32) var(--page-margin-1200-1399) 0;text-align:center}
+.bn h2{font:var(--title-m)}
+.bn .sb{font:var(--body-regular-m);margin-top:var(--size-space-16)}
+.bn .gr{display:flex;margin-top:var(--size-space-40)}
+.bi{flex:1;padding:0 var(--size-space-8)}
+.bi .pc{height:64px;display:flex;justify-content:center;color:var(--color-icon-general-1)}
+.bi h3{font:var(--title-m);margin-top:var(--size-space-8)}
+.bi .b1{font:var(--body-regular-l);margin-top:var(--size-space-16);white-space:nowrap}
+.bi .b2{font:var(--body-regular-s);margin-top:var(--size-space-12)}
+/* Stacked: card secondary module + conditions */
+.sk{display:flow-root}
+.cs{height:598px;padding:var(--size-space-20) var(--page-margin-1200-1399) 0;text-align:center}
+.cs h2{font:var(--title-m)}
+.cs .sb{font:var(--body-regular-m);margin-top:var(--size-space-16)}
+.cs .row{display:flex;gap:var(--size-space-24);margin-top:var(--size-space-32);height:436px;text-align:left}
+.cs .img{flex:0 0 486px}
+.cs .ct{flex:0 0 486px;border:var(--border-width-l) solid var(--color-border-general-1);border-radius:var(--border-radius-l);padding:var(--size-space-32) var(--size-space-40) var(--size-space-24);display:flex;flex-direction:column;align-items:flex-start}
+.cs .ct h3{font:var(--title-s)}
+.cs .pr{margin-top:var(--size-space-12);background:var(--color-surface-general-3);border-radius:var(--border-radius-m);padding:var(--size-space-4) var(--size-space-12);font:var(--body-smbold-l)}
+.cs .ct p.d{margin-top:var(--size-space-16);font:var(--body-regular-m)}
+.cs .ct ul{margin-top:var(--size-space-12);display:flex;flex-direction:column;gap:var(--size-space-12)}
+.cs .ct li{display:flex;gap:var(--size-space-8);font:var(--body-regular-m)}
+.cs .ct li span{padding-top:var(--size-space-2)}
+.cs .ct .btn{align-self:center;margin-top:auto;min-width:328px}
+.cn{height:216px;padding:var(--size-space-16) var(--page-margin-1200-1399) 0}
+.cn h2{font:var(--title-s)}
+.cn .lt{font:var(--body-regular-xs);color:var(--color-content-general-2);margin-top:var(--size-space-16)}
+.cn .dl{display:inline-flex;gap:var(--size-space-8);align-items:center;margin-top:var(--size-space-24);font:var(--body-smbold-s);color:var(--color-content-interactive-active)}
+/* Process */
+.pc2{height:460px;background:var(--color-surface-general-2);padding:var(--size-space-40) var(--page-margin-1200-1399);text-align:center}
+.pc2 h2{font:var(--title-m)}
+.pc2 .sts{display:flex;gap:var(--size-space-24);margin-top:var(--size-space-32)}
+.st{flex:1;height:220px;background:var(--color-surface-general-1);border-radius:var(--border-radius-l);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:0 var(--size-space-24)}
+.st h3{font:var(--title-xs)}
+.st p{font:var(--body-regular-s);margin-top:var(--size-space-12)}
+.st .nm{position:absolute;left:16px;bottom:-14px;font:700 96px/1 var(--font-heading);color:var(--color-surface-general-2)}
+.pc2 .btn{margin-top:var(--size-space-32)}
+/* FAQs */
+.fq{height:574px;padding:var(--size-space-40) var(--page-margin-1200-1399) 0;text-align:center}
+.fq h2{font:var(--title-m)}
+.fq .sb{font:var(--body-regular-m);margin-top:var(--size-space-16)}
+.fq ul{margin-top:30px;text-align:left}
+.fq li{height:72px;border-bottom:var(--border-width-l) solid var(--color-border-interactive-active)}
+.q{width:100%;height:100%;background:none;border:0;display:flex;align-items:center;justify-content:space-between;padding:0 var(--size-space-40);font:var(--body-regular-m);color:var(--color-content-general-1);cursor:pointer;text-align:left}
+.q svg{color:var(--color-icon-general-1)}
+/* Featured actions */
+.fa{height:280px;background:var(--color-surface-general-2);padding-top:var(--size-space-40);text-align:center;display:flex;flex-direction:column;align-items:center}
+.fa .pc{height:64px;color:var(--color-icon-general-1)}
+.fa h2{font:var(--title-m);margin-top:var(--size-space-8)}
+.fa .btn{margin-top:var(--size-space-32);min-width:328px}
+/* Card primary selling */
+.cp{height:482px;padding:var(--size-space-40) var(--page-margin-1200-1399) 0;text-align:center}
+.cp h2{font:var(--title-m)}
+.cp .cards{display:flex;gap:var(--size-space-24);margin-top:var(--size-space-32)}
+.pcd{flex:1;height:330px;border-radius:var(--border-radius-l);overflow:hidden;position:relative;background:var(--extra-image-bg)}
+.pimg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding-bottom:120px}
+.pin{position:absolute;left:12px;right:12px;bottom:12px;background:var(--color-surface-general-1);border-radius:var(--border-radius-l);padding:var(--size-space-16);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.pin h3{font:var(--title-xs)}
+.pin p{font:var(--body-regular-s);margin-top:var(--size-space-8)}
+.lk{display:inline-flex;gap:var(--size-space-4);align-items:center;margin-top:var(--size-space-12);font:var(--body-smbold-m);color:var(--color-content-interactive-active)}
+/* Footer */
+.ft{height:942px;position:relative;font:var(--body-regular-s)}
+.ft .hd{height:104px;border-bottom:var(--border-width-s) solid var(--color-border-general-1);display:flex;align-items:center;justify-content:space-between;padding:0 var(--page-margin-1200-1399)}
+.so{display:inline-block;width:24px;height:24px;border-radius:50%;border:2px solid var(--color-icon-general-1);margin-left:var(--size-space-24)}
+.fc{position:absolute;top:160px;width:230px}
+.c1{left:102px}.c2{left:357px}.c3{left:612px}.c4{left:867px}
+.fc h3{font:var(--body-smbold-m)}
+.fc h3:not(:first-child){margin-top:var(--size-space-32)}
+.fc ul{margin-top:var(--size-space-16);display:flex;flex-direction:column;gap:var(--size-space-12)}
+.fc a{text-decoration:none;display:block;line-height:22px}
+.ft .ap,.ft .cf{position:absolute;left:0;right:0;text-align:center}
+.ft .ap{top:564px}.ft .cf{top:708px}
+.ft h4{margin:0;font:var(--body-smbold-s)}
+.bd{display:flex;gap:var(--size-space-16);justify-content:center;margin-top:var(--size-space-24)}
+.bd span{width:120px;height:40px;background:var(--extra-logo-bg);border:var(--border-width-s) solid var(--color-border-general-1);border-radius:var(--border-radius-m);display:flex;align-items:center;justify-content:center;font:var(--body-smbold-s);color:var(--color-icon-general-1)}
+.cts{display:flex;gap:var(--size-space-16);justify-content:center;margin-top:var(--size-space-24)}
+.cert{width:56px;height:56px;border-radius:50%;background:var(--extra-logo-bg);border:var(--border-width-s) solid var(--color-border-general-1)}
+.ft .ln{position:absolute;left:102px;right:102px;top:862px;display:flex;gap:16px;justify-content:center;font:var(--body-regular-xs)}
+.ft .ln a{text-decoration:none;white-space:nowrap}
+.ft .hrl{position:absolute;left:102px;right:102px;top:902px;border-top:var(--border-width-s) solid var(--color-border-general-1)}
+</style>
+<style id="v">
+.bc{padding-left:24px}
+.lg{padding:0 80px}
+.bn{margin-top:24px}
+.cn{padding-left:112px}
+.c2 ul:first-of-type{padding-left:16px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="ck" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol></svg>
+<div class="page">
+<header class="mn">
+<div class="mb"><div class="logo">Logotipo</div><nav aria-label="Principal"><a href="#">Casa</a><a href="#">Coche</a><a href="#">Acceso</a><a href="#">Estudio</a><a href="#">Trabaja con nosotros</a></nav><div class="ic"><span></span><span></span></div></div>
+</header>
+<nav class="bc" aria-label="Migas de pan"><a href="#">Prueba</a> / <a href="#">Prueba</a> / <span>…</span> / <b>Prueba</b></nav>
+<section class="hr">
+<div class="tx"><p class="ey">Todo bajo control</p><h1>Estudio anual de tu tarifa</h1><p class="lead">Controla la temperatura de tu hogar desde el móvil.</p>
+<ul><li><svg class="ck" width="24" height="24" aria-hidden="true"><use href="#ck"/></svg>Control total desde la app, facturas y consumo al detalle</li><li><svg class="ck" width="24" height="24" aria-hidden="true"><use href="#ck"/></svg>Envío gratis e instalación rápida tú mismo</li><li><svg class="ck" width="24" height="24" aria-hidden="true"><use href="#ck"/></svg>Llévatelo por 99,00 €*</li></ul>
+<a class="btn" href="#">Contratar online</a></div>
+<div class="img" role="img" aria-label="Imagen de ejemplo"><svg width="88" height="55" viewBox="0 0 130 80" aria-hidden="true"><circle cx="40" cy="12" r="9" fill="#aa8d97"/><path d="M0 80 L35 28 L52 52 L88 0 L130 80Z" fill="#aa8d97"/></svg></div>
+</section>
+<div class="lg"><p>*Precio con impuestos incluidos, disponible para potencias inferiores a 15kW. Incluye: impuestos indirectos: el IVA (21 %) para península y Baleares. Para Canarias se aplica el IGIC (7 %) y para Ceuta y Melilla aplica el IPSI (4 %).</p></div>
+<section class="bn"><h2>Razones para equipar tu hogar</h2><p class="sb">Descubre todo lo que consigues con la tecnología Smart de Iberdrola.</p><div class="gr"><div class="bi"><div class="pc"><svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><rect x="12" y="14" width="34" height="38" rx="8" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="50" cy="12" r="5" fill="none" stroke="var(--color-icon-accent-1)" stroke-width="2.5"/></svg></div><h3>Ahorro</h3><p class="b1">Reduce tu factura</p><p class="b2">Optimiza tu consumo energético y reduce el importe de tus facturas.</p></div><div class="bi"><div class="pc"><svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><rect x="12" y="14" width="34" height="38" rx="8" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="50" cy="12" r="5" fill="none" stroke="var(--color-icon-accent-1)" stroke-width="2.5"/></svg></div><h3>Comodidad</h3><p class="b1">Gestión móvil</p><p class="b2">Controla la iluminación y la climatización desde tu móvil.</p></div><div class="bi"><div class="pc"><svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><rect x="12" y="14" width="34" height="38" rx="8" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="50" cy="12" r="5" fill="none" stroke="var(--color-icon-accent-1)" stroke-width="2.5"/></svg></div><h3>Asistencia</h3><p class="b1">Soporte técnico 24 h</p><p class="b2">Soluciona las averías más frecuentes de la vivienda.</p></div><div class="bi"><div class="pc"><svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><rect x="12" y="14" width="34" height="38" rx="8" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="50" cy="12" r="5" fill="none" stroke="var(--color-icon-accent-1)" stroke-width="2.5"/></svg></div><h3>Tranquilidad</h3><p class="b1">Protección en el hogar</p><p class="b2">Consulta tus dudas o resuelve imprevistos a cualquier hora.</p></div></div></section>
+<div class="sk">
+<section class="cs"><h2>El equipamiento que necesitas para empezar a ahorrar</h2><p class="sb">Empieza a controlar la temperatura de tu hogar con este kit de fácil instalación.</p>
+<div class="row"><div class="img" role="img" aria-label="Imagen de ejemplo"><svg width="88" height="55" viewBox="0 0 130 80" aria-hidden="true"><circle cx="40" cy="12" r="9" fill="#aa8d97"/><path d="M0 80 L35 28 L52 52 L88 0 L130 80Z" fill="#aa8d97"/></svg></div>
+<div class="ct"><h3>Control clima Smart</h3><span class="pr">Por 99,00* €</span><p class="d">Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit luctus, leo quam placerat at proin vel pharetra est.</p>
+<ul><li><svg class="ck" width="24" height="24" aria-hidden="true"><use href="#ck"/></svg><span>Controlador Wi-Fi Sensibo Sky para aire acondicionado y bomba de calor</span></li><li><svg class="ck" width="24" height="24" aria-hidden="true"><use href="#ck"/></svg><span>Control y programación de la temperatura desde tu móvil</span></li><li><svg class="ck" width="24" height="24" aria-hidden="true"><use href="#ck"/></svg><span>Envío gratuito</span></li></ul>
+<a class="btn" href="#">Contratar online</a></div></div></section>
+<section class="cn"><h2>Condiciones Generales</h2><p class="lt">*Precio con impuestos incluidos, disponible para potencias inferiores a 15kW. Incluye: impuestos indirectos: el IVA (21 %) para península y Baleares. Para Canarias se aplica el IGIC (7 %) y para Ceuta y Melilla aplica el IPSI (4 %).</p><a class="dl" href="#">Condiciones Control clima Smart</a></section>
+</div>
+<section class="pc2"><h2>Disfruta de tu Control clima Smart en 4 sencillos pasos</h2><div class="sts"><div class="st"><h3>1. Datos personales</h3><p>Introduce tu nombre, teléfono y DNI.</p><span class="nm" aria-hidden="true">1</span></div><div class="st"><h3>2. Dirección</h3><p>Confirma dónde realizaremos la instalación.</p><span class="nm" aria-hidden="true">2</span></div><div class="st"><h3>3. Resumen</h3><p>Revisa tus datos antes de confirmar.</p><span class="nm" aria-hidden="true">3</span></div><div class="st"><h3>4. Pago y firma</h3><p>Añade tus datos bancarios para finalizar.</p><span class="nm" aria-hidden="true">4</span></div></div><a class="btn" href="#">Contratar online</a></section>
+<section class="fq"><h2>¿Tienes alguna pregunta?</h2><p class="sb">Aquí encontrarás respuesta a algunas de las dudas más frecuentes.</p><ul><li><button type="button" class="q" aria-expanded="false"><span>¿Qué es el Control clima Smart?</span><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></li><li><button type="button" class="q" aria-expanded="false"><span>¿Cuál es el precio del Control clima Smart?</span><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></li><li><button type="button" class="q" aria-expanded="false"><span>¿Con qué aparato de aire acondicionado es compatible?</span><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></li><li><button type="button" class="q" aria-expanded="false"><span>¿Es compatible con otros sistemas de eficiencia enérgetica?</span><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></li><li><button type="button" class="q" aria-expanded="false"><span>¿Cuánto tardaré en recibir el Control clima Smart?</span><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></li></ul></section>
+<section class="fa"><div class="pc"><svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><rect x="12" y="14" width="34" height="38" rx="8" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="50" cy="12" r="5" fill="none" stroke="var(--color-icon-accent-1)" stroke-width="2.5"/></svg></div><h2>¿Aún tienes dudas?</h2><a class="btn" href="#">Te llamamos gratis</a></section>
+<section class="cp"><h2>También te puede interesar</h2><div class="cards"><article class="pcd"><div class="pimg" role="img" aria-label="Imagen de ejemplo"><svg width="88" height="55" viewBox="0 0 130 80" aria-hidden="true"><circle cx="40" cy="12" r="9" fill="#aa8d97"/><path d="M0 80 L35 28 L52 52 L88 0 L130 80Z" fill="#aa8d97"/></svg></div><div class="pin" style="height:148px"><h3>Asistente Smart Avanzado</h3><p>Gestiona tu hogar de forma inteligente, conoce tu consumo y descubre nuevas formas de ahorrar.</p><a class="lk" href="#">Saber más <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></article><article class="pcd"><div class="pimg" role="img" aria-label="Imagen de ejemplo"><svg width="88" height="55" viewBox="0 0 130 80" aria-hidden="true"><circle cx="40" cy="12" r="9" fill="#aa8d97"/><path d="M0 80 L35 28 L52 52 L88 0 L130 80Z" fill="#aa8d97"/></svg></div><div class="pin" style="height:128px"><h3>Enchufes Smart</h3><p>Apaga tus electrodomésticos desde el móvil y evita el consumo en espera.</p><a class="lk" href="#">Saber más <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></article><article class="pcd"><div class="pimg" role="img" aria-label="Imagen de ejemplo"><svg width="88" height="55" viewBox="0 0 130 80" aria-hidden="true"><circle cx="40" cy="12" r="9" fill="#aa8d97"/><path d="M0 80 L35 28 L52 52 L88 0 L130 80Z" fill="#aa8d97"/></svg></div><div class="pin" style="height:128px"><h3>Monitor de consumo Smart</h3><p>Mide el consumo eléctrico de tu hogar en tiempo real desde la App.</p><a class="lk" href="#">Saber más <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div></article></div></section>
+<footer class="ft"><div class="hd"><div class="logo">Logotipo</div><div><span class="so"></span><span class="so"></span><span class="so"></span><span class="so"></span></div></div><div class="fc c1"><h3>Ayuda</h3><ul><li><a href="#">Atención al Cliente</a></li><li><a href="#">900 2787235</a></li><li><a href="#">946 460 78878</a></li><li><a href="#">919 195 278773</a></li><li><a href="#">prueba@prueba.com</a></li><li><a href="#">Whatsapp</a></li></ul><h3>Información útil</h3><ul><li><a href="#">Nuestra App</a></li><li><a href="#">Canal de denuncias</a></li></ul></div><div class="fc c2"><h3>Casa</h3><ul><li><a href="#">Plan Anual</a></li><li><a href="#">Comparador de planes</a></li><li><a href="#">Comparador de Facturas</a></li><li><a href="#">Precio de la luz hoy</a></li></ul><h3>Accesibilidad</h3><ul><li><a href="#">Plan Gas Hogar</a></li></ul></div><div class="fc c3"><h3>Movilidad</h3><ul><li><a href="#">Puntos de Recarga</a></li></ul><h3>Solar</h3><ul><li><a href="#">Plan Solar</a></li><li><a href="#">Simulador Placas Solares</a></li></ul></div><div class="fc c4"><h3>Te interesa</h3><ul><li><a href="#">Consejos Gas</a></li><li><a href="#">Autoconsumo</a></li><li><a href="#">Ahorro Energético</a></li><li><a href="#">Transporte Eléctrico</a></li><li><a href="#">Sostenibilidad</a></li></ul></div>
+<div class="ap"><h4>Descarga la App Clientes</h4><div class="bd"><span>Google Play</span><span>App Store</span></div></div>
+<div class="cf"><h4>Nuestros certificados de confianza</h4><div class="cts"><span class="cert" role="img" aria-label="Certificado 1"></span><span class="cert" role="img" aria-label="Certificado 2"></span><span class="cert" role="img" aria-label="Certificado 3"></span><span class="cert" role="img" aria-label="Certificado 4"></span><span class="cert" role="img" aria-label="Certificado 5"></span><span class="cert" role="img" aria-label="Certificado 6"></span></div></div>
+<div class="ln"><a href="#">Mapa web</a><a href="#">Información legal y Política de cookies</a><a href="#">Política de privacidad</a><a href="#">Configuración de cookies</a><a href="#">Seguridad de la Información</a><a href="#">Accesibilidad</a><a href="#">¿Cómo ser colaborador?</a></div><div class="hrl"></div></footer>
+</div>
+<script>
+var v=document.getElementById('v');
+function m(){v.disabled=location.hash==='#ok'}
+addEventListener('hashchange',m);m();
+document.querySelectorAll('.q').forEach(function(b){b.addEventListener('click',function(){b.setAttribute('aria-expanded',b.getAttribute('aria-expanded')==='true'?'false':'true')})});
+</script>
+</body>
+</html>
